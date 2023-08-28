@@ -11,28 +11,28 @@ import java.util.Map;
 
 @Service
 public class FilmService {
-    private final Map<String, Film> films = new HashMap<>();
-    private static Integer globalId = 0;
+    private final Map<Integer, Film> films = new HashMap<>();
+    private static Integer id = 1;
 
     public Collection<Film> findAllFilms() {
         return films.values();
     }
 
-    private static Integer getNextId() {
-        return globalId++;
-    }
-
     public Film create(Film film) {
         if (checkValidation(film)) {
-            film.setId(getNextId());
-            films.put(film.getName(), film);
+            film.setId(id++);
+            films.put(film.getId(), film);
             return film;
         }
         throw new ValidationException("Фильм не прошел валидацию.");
     }
 
     public Film update(Film film) {
-        return films.put(film.getName(), film);
+        if ( films.get(film.getId()) == null ) {
+            throw new ValidationException("Такого фильма нет.");
+        }
+        films.put(film.getId(), film);
+        return film;
     }
 
     private boolean checkValidation(Film film) {

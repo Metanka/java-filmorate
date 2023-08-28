@@ -23,13 +23,13 @@ public class FilmController {
         return filmService.findAllFilms();
     }
 
-    @PostMapping(value = "/film")
+    @PostMapping(value = "/films")
     public Film create(@RequestBody Film film) {
         log.debug("Получен POST-запрос /film: " + film);
         return filmService.create(film);
     }
 
-    @PutMapping(value = "/film")
+    @PutMapping(value = "/films")
     public Film updateFilm(@RequestBody Film film) {
         log.debug("Получен PUT-запрос /film: " + film);
         return filmService.update(film);
