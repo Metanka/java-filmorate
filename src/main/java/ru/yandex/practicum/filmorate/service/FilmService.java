@@ -28,7 +28,7 @@ public class FilmService {
     }
 
     public Film update(Film film) {
-        if ( films.get(film.getId()) == null ) {
+        if (films.get(film.getId()) == null) {
             throw new ValidationException("Такого фильма нет.");
         }
         films.put(film.getId(), film);
