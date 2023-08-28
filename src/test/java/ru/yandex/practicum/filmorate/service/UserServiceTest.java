@@ -41,17 +41,17 @@ public class UserServiceTest {
     public void validationTest() {
         User user3 = new User("3", "re",
                 LocalDate.of(2003, Month.APRIL, 27));
-        Throwable exception1 = assertThrows(ValidationException.class, () ->  userService.createUser(user3));
+        Throwable exception1 = assertThrows(ValidationException.class, () -> userService.createUser(user3));
         assertEquals("Проверьте правильность email", exception1.getMessage());
 
         User user4 = new User("pe@pe.ru", "",
                 LocalDate.of(2003, Month.APRIL, 27));
-        Throwable exception2 = assertThrows(ValidationException.class, () ->  userService.createUser(user4));
+        Throwable exception2 = assertThrows(ValidationException.class, () -> userService.createUser(user4));
         assertEquals("Логин не может быть пустым", exception2.getMessage());
 
         User user5 = new User("pe@pe.ru", "fwf",
                 LocalDate.of(2053, Month.APRIL, 27));
-        Throwable exception3 = assertThrows(ValidationException.class, () ->  userService.createUser(user5));
+        Throwable exception3 = assertThrows(ValidationException.class, () -> userService.createUser(user5));
         assertEquals("Пользователь должен быть рожденым", exception3.getMessage());
     }
 }

@@ -42,17 +42,17 @@ class FilmServiceTest {
     public void validationTest() {
         Film film3 = new Film("3", "Описание2",
                 LocalDate.of(1333, Month.APRIL, 27), 90);
-        Throwable exception1 = assertThrows(ValidationException.class, () ->  filmService.create(film3));
+        Throwable exception1 = assertThrows(ValidationException.class, () -> filmService.create(film3));
         assertEquals("В те года фильмов еще не было", exception1.getMessage());
 
         Film film4 = new Film("4", "Из числа всей ее челяди самым замечательным лицом был дворник Герасим, мужчина двенадцати вершков роста, сложенный богатырем и глухонемой от рожденья. Барыня взяла его из деревни, где он жил один, в небольшой избушке, отдельно от братьев, и считался едва ли не самым исправным тягловым мужиком. Одаренный необычайной силой, он работал за четверых — дело спорилось в его руках, и весело было смотреть на него, когда он либо пахал и, налегая огромными ладонями на соху, казалось, один, без помощи лошаденки, взрезывал упругую грудь земли, либо о Петров день так сокрушительно действовал косой, что хоть бы молодой березовый лесок смахивать с корней долой, либо проворно и безостановочно молотил трехаршинным цепом, и как рычаг опускались и поднимались продолговатые и твердые мышцы его плечей. Постоянное безмолвие придавало торжественную важность его неистомной работе. Славный он был мужик, и не будь его несчастье, всякая девка охотно пошла бы за него замуж… Но вот Герасима привезли в Москву, купили ему сапоги, сшили кафтан на лето, на зиму тулуп, дали ему в руки метлу и лопату и определили его дворником.",
                 LocalDate.of(2011, Month.APRIL, 27), 90);
-        Throwable exception2 = assertThrows(ValidationException.class, () ->  filmService.create(film4));
+        Throwable exception2 = assertThrows(ValidationException.class, () -> filmService.create(film4));
         assertEquals("Описание фильма превышает 200 символов", exception2.getMessage());
 
         Film film5 = new Film("5", "Описание5",
                 LocalDate.of(2003, Month.APRIL, 27), -90);
-        Throwable exception3 = assertThrows(ValidationException.class, () ->  filmService.create(film5));
+        Throwable exception3 = assertThrows(ValidationException.class, () -> filmService.create(film5));
         assertEquals("Фильм не может воспроизводиться в прошлое", exception3.getMessage());
     }
 }

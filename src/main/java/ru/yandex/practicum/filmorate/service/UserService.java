@@ -20,6 +20,7 @@ public class UserService {
     public Collection<User> findAllUser() {
         return users.values();
     }
+
     public User createUser(User user) {
         if (checkValidation(user)) {
             if (users.containsKey(user.getEmail())) {

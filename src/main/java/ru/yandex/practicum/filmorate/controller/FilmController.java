@@ -11,7 +11,8 @@ import java.util.Collection;
 @Slf4j
 @RestController
 public class FilmController {
-private final FilmService filmService;
+    private final FilmService filmService;
+
     public FilmController() {
         filmService = new FilmService();
     }
