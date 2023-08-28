@@ -31,9 +31,9 @@ public class UserServiceTest {
         userService.createUser(user2);
         assertEquals(2, userService.findAllUser().size());
 
-        User user3 = new User("ya@ya.ru", "dolore", LocalDate.of(1946, Month.AUGUST, 20));
-        userService.updateUser(user3);
-        assertTrue(userService.findAllUser().contains(user3));
+        user2.setName("hhhhhh");
+        userService.updateUser(user2);
+        assertTrue(userService.findAllUser().contains(user2));
     }
 
     @Test

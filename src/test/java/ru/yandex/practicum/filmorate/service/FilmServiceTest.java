@@ -31,11 +31,10 @@ class FilmServiceTest {
         filmService.create(film2);
         assertEquals(2, filmService.findAllFilms().size());
 
-        Film film3 = new Film("2", "Описание2",
-                LocalDate.of(2021, Month.APRIL, 27), 90);
+        film2.setName("hhhhh");
 
-        filmService.update(film3);
-        assertTrue(filmService.findAllFilms().contains(film3));
+        filmService.update(film2);
+        assertTrue(filmService.findAllFilms().contains(film2));
     }
 
     @Test
