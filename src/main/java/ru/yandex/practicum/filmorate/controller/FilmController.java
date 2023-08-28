@@ -16,7 +16,6 @@ private final FilmService filmService;
         filmService = new FilmService();
     }
 
-
     @GetMapping("/films")
     public Collection<Film> getFilms() {
         log.debug("Текущее количество фильмов: {}", filmService.findAllFilms().size());
