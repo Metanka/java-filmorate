@@ -20,6 +20,7 @@ public class UserService {
     public Collection<User> findAllUser() {
         return users.values();
     }
+
     private static Integer id = 1;
 
     public User createUser(User user) {
@@ -43,7 +44,7 @@ public class UserService {
         if (user.getEmail().isBlank()) {
             throw new InvalidEmailException("Адрес электронной почты не может быть пустым.");
         }
-        if ( users.get(user.getId()) == null ) {
+        if (users.get(user.getId()) == null) {
             throw new ValidationException("Id не совпадают.");
         }
         users.put(user.getId(), user);
