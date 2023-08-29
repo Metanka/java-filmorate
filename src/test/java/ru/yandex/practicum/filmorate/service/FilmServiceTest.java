@@ -48,10 +48,5 @@ class FilmServiceTest {
                 LocalDate.of(2011, Month.APRIL, 27), 90);
         Throwable exception2 = assertThrows(ValidationException.class, () -> filmService.create(film4));
         assertEquals("Описание фильма превышает 200 символов", exception2.getMessage());
-
-        Film film5 = new Film("5", "Описание5",
-                LocalDate.of(2003, Month.APRIL, 27), -90);
-        Throwable exception3 = assertThrows(ValidationException.class, () -> filmService.create(film5));
-        assertEquals("Фильм не может воспроизводиться в прошлое", exception3.getMessage());
     }
 }

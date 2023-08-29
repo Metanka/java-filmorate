@@ -2,14 +2,17 @@ package ru.yandex.practicum.filmorate.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.service.UserService;
 
-import java.util.Collection;
+import javax.validation.Valid;
+import java.util.List;
 
 @Slf4j
 @RestController
+@Validated
 @RequestMapping("/users")
 public class UserController {
     private final UserService userService;
@@ -20,19 +23,19 @@ public class UserController {
     }
 
     @GetMapping
-    public Collection<User> findAll() {
-        log.debug("Текущее количество пользователей: {}", userService.findAllUser().size());
+    public List<User> findAll() {
         return userService.findAllUser();
     }
 
     @PostMapping
-    public User createUser(@RequestBody User user) {
+    public User createUser(@RequestBody @Valid User user) {
         log.debug("Получен запрос POST /users: " + user);
         return userService.createUser(user);
     }
 
+    @Validated
     @PutMapping
-    public User updateUser(@RequestBody User user) {
+    public User updateUser(@RequestBody @Valid User user) {
         log.debug("Получен запрос PUT /users: " + user);
         return userService.updateUser(user);
     }

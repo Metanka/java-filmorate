@@ -1,21 +1,30 @@
 package ru.yandex.practicum.filmorate.model;
 
 import lombok.Data;
-import lombok.NonNull;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.PastOrPresent;
 import java.time.LocalDate;
 
 @Data
 public class User {
-    int id;
+    private long id;
 
-    @NonNull
-    String email;
-    @NonNull
-    String login;
-    @NonNull
+    @Email(message = "Email должен быть корректным адресом электронной почты")
+    @NotBlank
+    private String email;
+    @NotBlank
+    private String login;
+
     @PastOrPresent
-    LocalDate birthday;
-    String name;
+    private LocalDate birthday;
+    private String name;
+
+    public User(String email, String login, LocalDate birthday) {
+        this.email = email;
+        this.login = login;
+        this.birthday = birthday;
+    }
 }

@@ -5,22 +5,20 @@ import ru.yandex.practicum.filmorate.exception.ValidationException;
 import ru.yandex.practicum.filmorate.model.Film;
 
 import java.time.LocalDate;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class FilmService {
-    private final Map<Integer, Film> films = new HashMap<>();
-    private static Integer id = 1;
+    private final Map<Long, Film> films = new HashMap<>();
+    private Integer id = 0;
 
-    public Collection<Film> findAllFilms() {
-        return films.values();
+    public List<Film> findAllFilms() {
+        return new ArrayList<>(films.values());
     }
 
     public Film create(Film film) {
         if (checkValidation(film)) {
-            film.setId(id++);
+            film.setId(++id);
             films.put(film.getId(), film);
             return film;
         }
@@ -36,14 +34,12 @@ public class FilmService {
     }
 
     private boolean checkValidation(Film film) {
-        if (film.getName().isBlank()) {
-            throw new ValidationException("Имя фильма не должно быть пустым");
-        } else if (film.getDescription().length() > 200) {
+        if (film.getDescription().length() > 200) {
             throw new ValidationException("Описание фильма превышает 200 символов");
         } else if (film.getReleaseDate().isBefore(LocalDate.of(1895, 12, 28))) {
             throw new ValidationException("В те года фильмов еще не было");
-        } else if (film.getDuration() < 0) {
-            throw new ValidationException("Фильм не может воспроизводиться в прошлое");
-        } else return true;
+        } else {
+            return true;
+        }
     }
 }

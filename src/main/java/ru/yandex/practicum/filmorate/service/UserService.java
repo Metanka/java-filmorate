@@ -8,20 +8,17 @@ import ru.yandex.practicum.filmorate.exception.ValidationException;
 import ru.yandex.practicum.filmorate.model.User;
 
 import java.time.LocalDate;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @NoArgsConstructor
 @Service
 public class UserService {
-    private final Map<Integer, User> users = new HashMap<>();
+    private final Map<Long, User> users = new HashMap<>();
+    private Integer id = 0;
 
-    public Collection<User> findAllUser() {
-        return users.values();
+    public List<User> findAllUser() {
+        return new ArrayList<>(users.values());
     }
-
-    private static Integer id = 1;
 
     public User createUser(User user) {
         if (checkValidation(user)) {
@@ -29,8 +26,7 @@ public class UserService {
                 throw new UserAlreadyExistException("Пользователь с электронной почтой " +
                         user.getEmail() + " уже зарегистрирован.");
             }
-            user.setId(id);
-            id++;
+            user.setId(++id);
             if (user.getName() == null) {
                 user.setName(user.getLogin());
             }
@@ -53,13 +49,12 @@ public class UserService {
     }
 
     private boolean checkValidation(User user) {
-        if (user.getEmail().isBlank() || !user.getEmail().contains("@")) {
+        if (!user.getEmail().contains("@")) {
             throw new ValidationException("Проверьте правильность email");
-        } else if (user.getLogin().isBlank()) {
-            throw new ValidationException("Логин не может быть пустым");
         } else if (user.getBirthday().isAfter(LocalDate.now())) {
             throw new ValidationException("Пользователь должен быть рожденым");
-        } else return true;
+        } else {
+            return true;
+        }
     }
-
 }
