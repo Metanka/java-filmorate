@@ -14,13 +14,13 @@ import java.util.*;
 @Service
 public class UserService {
     private final Map<Long, User> users = new HashMap<>();
-    private Integer id = 0;
+    private Long id = 0L;
 
-    public List<User> findAllUser() {
+    public List<User> findAll() {
         return new ArrayList<>(users.values());
     }
 
-    public User createUser(User user) {
+    public User create(User user) {
         if (checkValidation(user)) {
             if (users.containsKey(user.getId())) {
                 throw new UserAlreadyExistException("Пользователь с электронной почтой " +
@@ -36,7 +36,7 @@ public class UserService {
         throw new ValidationException("Пользователь не прошел валидацию.");
     }
 
-    public User updateUser(User user) {
+    public User update(User user) {
         if (user.getEmail().isBlank()) {
             throw new InvalidEmailException("Адрес электронной почты не может быть пустым.");
         }

@@ -29,12 +29,12 @@ class FilmServiceTest {
     public void testFilmService() {
         filmService.create(film1);
         filmService.create(film2);
-        assertEquals(2, filmService.findAllFilms().size());
+        assertEquals(2, filmService.findAll().size());
 
         film2.setName("hhhhh");
 
         filmService.update(film2);
-        assertTrue(filmService.findAllFilms().contains(film2));
+        assertTrue(filmService.findAll().contains(film2));
     }
 
     @Test

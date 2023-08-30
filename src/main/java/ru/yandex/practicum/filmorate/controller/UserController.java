@@ -24,19 +24,26 @@ public class UserController {
 
     @GetMapping
     public List<User> findAll() {
-        return userService.findAllUser();
+        log.debug("Пришел GET запрос /users");
+        List<User> response = userService.findAll();
+        log.debug("Отправлен ответ GET /users с телом: {}", response);
+        return response;
     }
 
     @PostMapping
     public User createUser(@RequestBody @Valid User user) {
         log.debug("Получен запрос POST /users: " + user);
-        return userService.createUser(user);
+        User response = userService.create(user);
+        log.debug("Отправлен ответ: " + response);
+        return response;
     }
 
     @Validated
     @PutMapping
     public User updateUser(@RequestBody @Valid User user) {
         log.debug("Получен запрос PUT /users: " + user);
-        return userService.updateUser(user);
+        User response = userService.update(user);
+        log.debug("Отправлен ответ: " + response);
+        return response;
     }
 }

@@ -27,20 +27,20 @@ public class UserServiceTest {
     public void testUserService() {
         user1 = new User("me@me.ru", "Login1", LocalDate.of(1993, Month.SEPTEMBER, 9));
         user2 = new User("ya@ya.ru", "dalare", LocalDate.of(1946, Month.AUGUST, 20));
-        userService.createUser(user1);
-        userService.createUser(user2);
-        assertEquals(2, userService.findAllUser().size());
+        userService.create(user1);
+        userService.create(user2);
+        assertEquals(2, userService.findAll().size());
 
         user2.setName("hhhhhh");
-        userService.updateUser(user2);
-        assertTrue(userService.findAllUser().contains(user2));
+        userService.update(user2);
+        assertTrue(userService.findAll().contains(user2));
     }
 
     @Test
     public void validationTest() {
         User user5 = new User("pe@pe.ru", "fwf",
                 LocalDate.of(2053, Month.APRIL, 27));
-        Throwable exception3 = assertThrows(ValidationException.class, () -> userService.createUser(user5));
+        Throwable exception3 = assertThrows(ValidationException.class, () -> userService.create(user5));
         assertEquals("Пользователь должен быть рожденым", exception3.getMessage());
     }
 }

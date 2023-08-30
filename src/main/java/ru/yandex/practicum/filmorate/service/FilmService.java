@@ -10,9 +10,9 @@ import java.util.*;
 @Service
 public class FilmService {
     private final Map<Long, Film> films = new HashMap<>();
-    private Integer id = 0;
+    private Long id = 0L;
 
-    public List<Film> findAllFilms() {
+    public List<Film> findAll() {
         return new ArrayList<>(films.values());
     }
 
