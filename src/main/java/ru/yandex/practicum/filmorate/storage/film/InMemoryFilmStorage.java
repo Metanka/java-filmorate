@@ -61,7 +61,7 @@ public class InMemoryFilmStorage implements FilmStorage {
         return films.get(filmId).addLike(userId);
     }
 
-     public boolean deleteLike(Long userId, Long filmId) {
+    public boolean deleteLike(Long userId, Long filmId) {
         if (!films.containsKey(filmId)) {
             throw new FilmNotFoundException(filmId);
         }
