@@ -64,7 +64,7 @@ public class UserController {
     @PutMapping("{id}/friends/{friendId}")
     public String addFriend(@PathVariable(value = "id") Long id,
                             @PathVariable(value = "friendId") Long friendId) {
-        log.debug("ids " + id + "   "+ friendId);
+        log.debug("ids " + id + "   " + friendId);
         boolean isSuccess = userService.addFriend(id, friendId);
         String response = isSuccess ? "Друг успешно добавлен!" : "Друг уже есть.";
         log.debug("Отправлен ответ: " + response);
