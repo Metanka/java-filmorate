@@ -1,45 +1,37 @@
 package ru.yandex.practicum.filmorate.service;
 
 import org.springframework.stereotype.Service;
-import ru.yandex.practicum.filmorate.exception.ValidationException;
 import ru.yandex.practicum.filmorate.model.Film;
+import ru.yandex.practicum.filmorate.storage.film.InMemoryFilmStorage;
 
-import java.time.LocalDate;
-import java.util.*;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class FilmService {
-    private final Map<Long, Film> films = new HashMap<>();
-    private Long id = 0L;
+    private final InMemoryFilmStorage filmStorage;
 
-    public List<Film> findAll() {
-        return new ArrayList<>(films.values());
+    public FilmService(InMemoryFilmStorage filmStorage) {
+        this.filmStorage = filmStorage;
     }
 
-    public Film create(Film film) {
-        if (checkValidation(film)) {
-            film.setId(++id);
-            films.put(film.getId(), film);
-            return film;
-        }
-        throw new ValidationException("Фильм не прошел валидацию.");
+    public boolean addLike(Long userId, Long filmId) {
+        return filmStorage.addLike(userId, filmId);
     }
 
-    public Film update(Film film) {
-        if (films.get(film.getId()) == null) {
-            throw new ValidationException("Такого фильма нет.");
-        }
-        films.put(film.getId(), film);
-        return film;
+    public boolean deleteLike(Long userId, Long filmId) {
+        return filmStorage.deleteLike(userId, filmId);
     }
 
-    private boolean checkValidation(Film film) {
-        if (film.getDescription().length() > 200) {
-            throw new ValidationException("Описание фильма превышает 200 символов");
-        } else if (film.getReleaseDate().isBefore(LocalDate.of(1895, 12, 28))) {
-            throw new ValidationException("В те года фильмов еще не было");
-        } else {
-            return true;
-        }
+    private int compare(Film p0, Film p1) {
+        return p1.getLikes().size() - p0.getLikes().size();
+    }
+
+    public List<Film> getTopFilms(int count) {
+        return filmStorage.findAll()
+                .stream()
+                .sorted(this::compare)
+                .limit(count)
+                .collect(Collectors.toList());
     }
 }
