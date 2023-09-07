@@ -1,13 +1,10 @@
 package ru.yandex.practicum.filmorate.service;
 
 import org.springframework.stereotype.Service;
-import ru.yandex.practicum.filmorate.exception.UserNotFoundException;
 import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.storage.user.InMemoryUserStorage;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 @Service
 public class UserService {
