@@ -2,10 +2,10 @@ package ru.yandex.practicum.filmorate.controller;
 
 import lombok.extern.slf4j.Slf4j;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.service.FilmService;
-import ru.yandex.practicum.filmorate.storage.film.InMemoryFilmStorage;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -14,18 +14,17 @@ import java.util.List;
 @RestController
 @RequestMapping("/films")
 public class FilmController {
-    private final InMemoryFilmStorage filmStorage;
     private final FilmService filmService;
 
-    public FilmController(InMemoryFilmStorage filmStorage) {
-        this.filmStorage = filmStorage;
-        this.filmService = new FilmService(filmStorage);
+    @Autowired
+    public FilmController(FilmService filmService) {
+        this.filmService = filmService;
     }
 
     @GetMapping
     public List<Film> getFilms() {
         log.debug("Пришел GET запрос /films");
-        List<Film> response = filmStorage.findAll();
+        List<Film> response = filmService.findAll();
         log.debug("Отправлен ответ GET /films с телом: {}", response);
         return response;
     }
@@ -33,7 +32,7 @@ public class FilmController {
     @PostMapping
     public Film create(@RequestBody @Valid Film film) {
         log.debug("Получен POST-запрос /films: " + film);
-        Film response = filmStorage.create(film);
+        Film response = filmService.create(film);
         log.debug("Отправлен ответ: " + response);
         return response;
     }
@@ -41,7 +40,7 @@ public class FilmController {
     @PutMapping
     public Film updateFilm(@RequestBody @Valid Film film) {
         log.debug("Получен PUT-запрос /films: " + film);
-        Film response = filmStorage.update(film);
+        Film response = filmService.update(film);
         log.debug("Отправлен ответ: " + response);
         return response;
     }
@@ -49,7 +48,8 @@ public class FilmController {
     @GetMapping("{id}")
     @ResponseBody
     public Film getFilmById(@PathVariable Long id) {
-        Film response = filmStorage.find(id);
+        log.debug("Получен GET-запрос /films/: " + id);
+        Film response = filmService.find(id);
         log.debug("Отправлен ответ: " + response);
         return response;
     }

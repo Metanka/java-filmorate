@@ -21,12 +21,9 @@ public class InMemoryFilmStorage implements FilmStorage {
     }
 
     public Film create(Film film) {
-        if (checkValidation(film)) {
-            film.setId(++id);
-            films.put(film.getId(), film);
-            return film;
-        }
-        throw new ValidationException("Фильм не прошел валидацию.");
+        film.setId(++id);
+        films.put(film.getId(), film);
+        return film;
     }
 
     public Film update(Film film) {
@@ -66,15 +63,5 @@ public class InMemoryFilmStorage implements FilmStorage {
             throw new FilmNotFoundException(filmId);
         }
         return films.get(filmId).deleteLike(userId);
-    }
-
-    private boolean checkValidation(Film film) {
-        if (film.getDescription().length() > 200) {
-            throw new ValidationException("Описание фильма превышает 200 символов");
-        } else if (film.getReleaseDate().isBefore(LocalDate.of(1895, 12, 28))) {
-            throw new ValidationException("В те года фильмов еще не было");
-        } else {
-            return true;
-        }
     }
 }

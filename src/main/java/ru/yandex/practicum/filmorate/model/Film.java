@@ -1,5 +1,6 @@
 package ru.yandex.practicum.filmorate.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NonNull;
 import ru.yandex.practicum.filmorate.exception.UserNotFoundException;
@@ -21,7 +22,8 @@ public class Film {
     @PositiveOrZero
     @NonNull
     private int duration;
-    Set<Long> likes = new HashSet<>();
+    @JsonIgnore
+    private Set<Long> likes = new HashSet<>();
 
     public Film(String name, String description, LocalDate releaseDate, int duration) {
         this.name = name;

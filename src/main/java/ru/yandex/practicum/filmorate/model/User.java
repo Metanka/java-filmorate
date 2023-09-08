@@ -1,5 +1,6 @@
 package ru.yandex.practicum.filmorate.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import ru.yandex.practicum.filmorate.exception.UserNotFoundException;
 
@@ -23,7 +24,8 @@ public class User {
     @PastOrPresent
     private LocalDate birthday;
     private String name;
-    Set<Long> friends = new HashSet<>();
+    @JsonIgnore
+    private Set<Long> friends = new HashSet<>();
 
     public User(String email, String login, LocalDate birthday) {
         this.email = email;

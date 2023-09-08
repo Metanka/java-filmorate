@@ -7,7 +7,6 @@ import ru.yandex.practicum.filmorate.exception.UserNotFoundException;
 import ru.yandex.practicum.filmorate.exception.ValidationException;
 import ru.yandex.practicum.filmorate.model.User;
 
-import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -21,19 +20,16 @@ public class InMemoryUserStorage implements UserStorage {
     }
 
     public User create(User user) {
-        if (checkValidation(user)) {
-            if (users.containsKey(user.getId())) {
-                throw new UserAlreadyExistException("Пользователь с электронной почтой " +
-                        user.getEmail() + " уже зарегистрирован.");
-            }
-            user.setId(++id);
-            if (user.getName() == null || user.getName().isBlank()) {
-                user.setName(user.getLogin());
-            }
-            users.put(user.getId(), user);
-            return user;
+        if (users.containsKey(user.getId())) {
+            throw new UserAlreadyExistException("Пользователь с электронной почтой " +
+                    user.getEmail() + " уже зарегистрирован.");
         }
-        throw new ValidationException("Пользователь не прошел валидацию.");
+        user.setId(++id);
+        if (user.getName() == null || user.getName().isBlank()) {
+            user.setName(user.getLogin());
+        }
+        users.put(user.getId(), user);
+        return user;
     }
 
     public User update(User user) {
@@ -101,15 +97,5 @@ public class InMemoryUserStorage implements UserStorage {
                     .collect(Collectors.toList());
         }
         return null;
-    }
-
-    private boolean checkValidation(User user) {
-        if (!user.getEmail().contains("@")) {
-            throw new ValidationException("Проверьте правильность email");
-        } else if (user.getBirthday().isAfter(LocalDate.now())) {
-            throw new ValidationException("Пользователь должен быть рожденым");
-        } else {
-            return true;
-        }
     }
 }
