@@ -5,6 +5,7 @@ import org.junit.jupiter.api.BeforeAll;
 import ru.yandex.practicum.filmorate.exception.ValidationException;
 import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.storage.user.InMemoryUserStorage;
+import ru.yandex.practicum.filmorate.storage.user.UserStorage;
 
 import java.time.LocalDate;
 import java.time.Month;
@@ -14,7 +15,8 @@ import static org.junit.Assert.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class UserServiceTest {
-    private static final InMemoryUserStorage userService = new InMemoryUserStorage();
+    private static final InMemoryUserStorage userStorage = new InMemoryUserStorage();
+    private static final UserService userService = new UserService(userStorage);
     private static User user1;
     private static User user2;
 
