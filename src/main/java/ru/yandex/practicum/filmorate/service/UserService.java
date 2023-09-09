@@ -1,51 +1,60 @@
 package ru.yandex.practicum.filmorate.service;
 
-import lombok.NoArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.yandex.practicum.filmorate.exception.InvalidEmailException;
-import ru.yandex.practicum.filmorate.exception.UserAlreadyExistException;
 import ru.yandex.practicum.filmorate.exception.ValidationException;
 import ru.yandex.practicum.filmorate.model.User;
+import ru.yandex.practicum.filmorate.storage.user.InMemoryUserStorage;
 
 import java.time.LocalDate;
-import java.util.*;
+import java.util.List;
 
-@NoArgsConstructor
 @Service
 public class UserService {
-    private final Map<Long, User> users = new HashMap<>();
-    private Long id = 0L;
+    private final InMemoryUserStorage userStorage;
+
+    @Autowired
+    public UserService(InMemoryUserStorage userStorage) {
+        this.userStorage = userStorage;
+    }
 
     public List<User> findAll() {
-        return new ArrayList<>(users.values());
+        return userStorage.findAll();
     }
 
     public User create(User user) {
         if (checkValidation(user)) {
-            if (users.containsKey(user.getId())) {
-                throw new UserAlreadyExistException("Пользователь с электронной почтой " +
-                        user.getEmail() + " уже зарегистрирован.");
-            }
-            user.setId(++id);
-            if (user.getName() == null) {
-                user.setName(user.getLogin());
-            }
-            users.put(user.getId(), user);
-            return user;
+            return userStorage.create(user);
         }
         throw new ValidationException("Пользователь не прошел валидацию.");
     }
 
     public User update(User user) {
-        if (user.getEmail().isBlank()) {
-            throw new InvalidEmailException("Адрес электронной почты не может быть пустым.");
-        }
-        if (users.get(user.getId()) == null) {
-            throw new ValidationException("Id не совпадают.");
-        }
-        users.put(user.getId(), user);
+        return userStorage.update(user);
+    }
 
-        return user;
+    public boolean delete(Long id) {
+        return userStorage.delete(id);
+    }
+
+    public boolean addFriend(Long userId, Long friendId) {
+        return userStorage.addFriend(userId, friendId);
+    }
+
+    public boolean deleteFriend(Long userId, Long friendId) {
+        return userStorage.deleteFriend(userId, friendId);
+    }
+
+    public List<User> getAllFriends(Long id) {
+        return userStorage.getAllFriends(id);
+    }
+
+    public User find(Long id) {
+        return userStorage.find(id);
+    }
+
+    public List<User> commonFriendsList(Long id, Long otherId) {
+        return userStorage.commonFriendsList(id, otherId);
     }
 
     private boolean checkValidation(User user) {

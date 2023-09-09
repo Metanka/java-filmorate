@@ -1,10 +1,9 @@
 package ru.yandex.practicum.filmorate.exception;
 
-public class FilmNotFoundException extends RuntimeException {
-
+public class UserNotFoundException extends RuntimeException {
     private final Long parameter;
 
-    public FilmNotFoundException(Long parameter) {
+    public UserNotFoundException(Long parameter) {
         this.parameter = parameter;
     }
 

@@ -46,4 +46,49 @@ public class UserController {
         log.debug("Отправлен ответ: " + response);
         return response;
     }
+
+    @GetMapping("{id}")
+    public User findById(@PathVariable Long id) {
+        log.debug("Пришел GET запрос /users/" + id);
+        User response = userService.find(id);
+        log.debug("Отправлен ответ: " + response);
+        return response;
+    }
+
+    @PutMapping("{id}/friends/{friendId}")
+    public String addFriend(@PathVariable(value = "id") Long id,
+                            @PathVariable(value = "friendId") Long friendId) {
+        log.debug("Пришел PUT запрос /users/" + id + "/friends/" + friendId);
+        boolean isSuccess = userService.addFriend(id, friendId);
+        String response = isSuccess ? "Друг успешно добавлен!" : "Друг уже есть.";
+        log.debug("Отправлен ответ: " + response);
+        return response;
+    }
+
+    @DeleteMapping("{id}/friends/{friendId}")
+    public String deleteFriend(@PathVariable(value = "id") Long id,
+                               @PathVariable(value = "friendId") Long friendId) {
+        log.debug("Пришел DELETE запрос /users/" + id + "/friends/" + friendId);
+        boolean isSuccess = userService.deleteFriend(id, friendId);
+        String response = isSuccess ? "Друг успешно удален!" : "Друг уже удален.";
+        log.debug("Отправлен ответ: " + response);
+        return response;
+    }
+
+    @GetMapping("{id}/friends")
+    public List<User> getFriendList(@PathVariable(value = "id") Long id) {
+        log.debug("Пришел GET запрос /users/" + id + "/friends");
+        List<User> response = userService.getAllFriends(id);
+        log.debug("Отправлен ответ: " + response);
+        return response;
+    }
+
+    @GetMapping("{id}/friends/common/{otherId}")
+    public List<User> commonFriendsList(@PathVariable(value = "id") Long id,
+                                        @PathVariable(value = "otherId") Long otherId) {
+        log.debug("Пришел GET запрос /users/" + id + "/friends/common/" + otherId);
+        List<User> response = userService.commonFriendsList(id, otherId);
+        log.debug("Отправлен ответ: " + response);
+        return response;
+    }
 }
